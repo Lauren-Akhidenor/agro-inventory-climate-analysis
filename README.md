@@ -29,9 +29,6 @@ Key measures include:
 - **DEFAULT Values** to auto-populate fields like `CreatedAt` and `ModifiedAt`.
 - **Triggers** to automatically update timestamps when records are modified.
 
-Example constraint from `CropInventory` table:
-```sql
-CONSTRAINT CK_CropInventory_Quantity_NonNegative CHECK (QuantityKg >= 0)
 
 
 -- =====================================================
@@ -115,6 +112,11 @@ GO
 -- =====================================================
 -- End of Schema Design Script
 -- =====================================================
+
+
+
+
+
 
 
 
