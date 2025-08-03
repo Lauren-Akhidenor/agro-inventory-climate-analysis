@@ -37,7 +37,7 @@ Key measures include:
 ### **2. Link to the actual file**
 You can also provide a direct link to the file so people can view/download it:
 ```markdown
-[View `create_schema.sql` here](https://github.com/Lauren-Akhidenor/agro-inventory-climate-analysis/blob/main/sql/create_schema.sql)
+[View create_schema.sql here](https://github.com/Lauren-Akhidenor/agro-inventory-climate-analysis/blob/main/sql/create_schema.sql)
 
 
 
