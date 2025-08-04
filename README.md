@@ -164,19 +164,43 @@ This script generates 500 synthetic `CropInventory` records to simulate realisti
 
 
 
-### 11. Query to Compare Climate Flags
+### 11. Price Comparison by Crop and Climate Expectation
 
 ![Analysis Query](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(859).png)
 
 
+This query breaks down average expected sell prices and record counts by both crop type and whether the farmer anticipated climate extremes (`ClimateExpFlag`).
+
+**What it shows:**
+- How pricing expectations vary across different crops (e.g., Maize vs Rice) conditioned on climate expectation.
+- The number of observations (N) underlying each average, giving context to reliability.
 
 
 
-
-### 12. Query Output – Restock Alerts
+### 12. Weekly Price Trends by Climate Expectation
 
 ![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)
 
+
+This query computes the average expected sell price per kilogram on a weekly basis, segmented by whether the farmer anticipated climate extremes (`ClimateExpFlag`).  
+- `WeekStart` normalizes harvest dates into week buckets.  
+- Allows observing temporal patterns or divergence in price expectations between the two groups over time.
+
+
+
+ ### 13. Price Volatility by Climate Expectation
+
+ ![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)
+
+
+
+The second part of this query calculates the sample standard deviation of expected prices for each `ClimateExpFlag` group, measuring variability (volatility) in farmers' price expectations depending on whether they anticipate climate extremes.
+
+
+
+### 14. Query Output – Climate Price Averages
+
+![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(866).png)
 
 
 
@@ -184,7 +208,16 @@ This script generates 500 synthetic `CropInventory` records to simulate realisti
 
 ### 13. Query Output – Climate Price Averages
 
-![Climate Price Averages](https://raw.githubuserc)
+![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)
+
+
+
+### 13. Query Output – Climate Price Averages
+
+![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(870).png)
+
+
+
 
 
 
@@ -193,6 +226,7 @@ This script generates 500 synthetic `CropInventory` records to simulate realisti
 ## Schema Design Script
 
 Below is the complete `create_schema.sql` used to set up the database schema for this project.
+
 
 ```sql
 -- =====================================================
