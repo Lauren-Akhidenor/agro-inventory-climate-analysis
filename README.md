@@ -1,232 +1,148 @@
-# Agricultural Inventory & Climate-Expectation Analysis
+# 🌾 Agricultural Inventory & Climate-Expectation Analysis
 
-## Overview
-This project demonstrates Microsoft SQL Server / T-SQL skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
+## 📌 Overview
+This project demonstrates **Microsoft SQL Server / T-SQL** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
 
-## Skills Demonstrated
-- Schema design with primary keys and constraints  
-- Data integrity enforcement (CHECK constraints, defaults)  
-- Auditability via triggers (tracking updates)  
-- Stored procedure creation for business logic (`usp_GetInputsNeedingRestock`)  
-- Aggregation and comparison queries  
-- Statistical summary (average, volatility, coefficient of variation)  
-- Conditional logic for alerts  
+## 🛠 Skills Demonstrated
+- 🗄 Schema design with primary keys & constraints  
+- ✅ Data integrity enforcement (CHECK constraints, defaults)  
+- 🔄 Auditability via triggers (automatic ModifiedAt updates)  
+- ⚙ Stored procedure creation (`usp_GetInputsNeedingRestock`)  
+- 📈 Aggregation & comparison queries  
+- 📉 Statistical summary (average, volatility, coefficient of variation)  
+- 🚨 Conditional alerting for inventory restock  
 
-## Project Structure
-- **sql/**: T-SQL scripts (schema creation, sample inserts, stored procedure, analysis queries)  
-- **sample_data/**: Example CSVs for easy import  
-- **screenshots/**: Proof-of-execution (SSMS outputs, schema design, procedure code)
+## 📂 Project Structure
+- **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
+- **sample_data/**: Example CSVs for quick import  
+- **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic)
 
+---
 
-## Key Components
+## 🧩 Key Components
 
 ### 1. Schema & Data Integrity  
-This project implements a relational database design for tracking crop inventory and farm inputs, with **constraints** to maintain data accuracy and prevent invalid entries.
+Implements a relational design to manage crop inventory and farm inputs with built-in protections:  
+- 🔑 Primary keys for unique identification  
+- 🚫 CHECK constraints to prevent invalid values (e.g., no negative quantity)  
+- 🕒 DEFAULT timestamps (`CreatedAt`, `ModifiedAt`)  
+- 🔁 Triggers to keep `ModifiedAt` accurate automatically  
 
-Key measures include:
-- **Primary Keys** to uniquely identify each crop or farm input.
-- **CHECK Constraints** to ensure that no negative quantities or prices are recorded.
-- **DEFAULT Values** to auto-populate fields like `CreatedAt` and `ModifiedAt`.
-- **Triggers** to automatically update timestamps when records are modified.
+### 2. Database Reset Script  
+Ensures a clean start before schema creation:  
+- `USE [checkpoint]` selects the target database  
+- Conditional `DROP TABLE` avoids errors on reruns  
+- `GO` batches ensure proper execution order  
 
+### 3. CropInventory Table  
+Holds crop harvest details, climate expectation flag, and expected sell price—enabling downstream price analysis and segmentation.
 
----------
-## Snapshot of Scripts
+### 4. FarmInput Table  
+Tracks essential inputs (fertilizer, seed, tools) with stock levels and reorder thresholds for operational alerts.
 
-### 1. Schema Design
+### 5. Trigger Automation  
+Automatically updates `ModifiedAt` on updates to maintain auditability without manual intervention.
 
+### 6. Stored Procedure: Restock Alerts  
+`usp_GetInputsNeedingRestock` flags inputs at or below their reorder threshold to support proactive replenishment.
 
-![Schema Design](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(853).png)
+### 7. Climate Expectation Price Analysis  
+Compares expected crop prices between farmers expecting climate extremes versus those who do not, surfacing behavioral pricing signals.
 
-This section defines the database structure for managing agricultural crop inventory and farm inputs.  
-- **Primary Keys**: Ensure each record is uniquely identifiable (`CropID` for crops, `InputID` for inputs).  
-- **CHECK Constraints**: Prevent invalid values, such as negative quantities.  
-- **DEFAULT Values**: Automatically fill timestamps (`CreatedAt` and `ModifiedAt`) without manual input.  
-- **Triggers**: Automatically update the `ModifiedAt` field whenever a record is changed, ensuring accurate audit tracking.  
+### 8. Synthetic Data Generation  
+Generates 500 realistic `CropInventory` records to scale analysis and simulate variability in crop type, harvest timing, climate expectation, and pricing.
 
-This design enforces **data integrity**, supports reliable analytics, and allows for automated operational updates without manual intervention.
+### 9. Temporal & Volatility Analysis  
+- Weekly trend of average expected price segmented by climate flag  
+- Price volatility and coefficient of variation to assess stability of expectations  
 
+---
 
+## 🔍 Key Insights
+- Farmers expecting climate extremes show slightly more uncertainty in price expectations.  
+- Mean expected prices remain similar, but volatility is marginally higher when climate extremes are anticipated.  
+- Restock alerts operationalize inventory health, preventing stockouts.
 
+---
 
-### 2. Database Reset Script Explanation
+## 🖼 Snapshot of Scripts & Outputs
 
-![Database reset script](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(844).png)
+### 1. Schema Design  
+![Schema Design](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(853).png)  
+Defines table structures, constraints, defaults, and triggers for data integrity and auditability.
 
+### 2. Database Reset Script  
+![Database reset script](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(844).png)  
+Safe drop-and-create logic to ensure reproducible schema setup.
 
-This section ensures a clean starting point before creating new tables.  
-- `USE [checkpoint]`: Switches to the correct database.  
-- `IF OBJECT_ID ... DROP TABLE`: Checks if the table exists, and if so, deletes it to avoid duplication errors.  
-- `GO`: Marks the end of each batch so commands execute in the correct order.  
-This approach allows the script to be re-run safely during development without manual table removal.
+### 3. CropInventory Table Creation  
+![Crop Inventory Data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(845).png)  
+Stores harvested crop details, climate expectation, and pricing.
 
+### 4. Farm Input Table  
+![Farm Input Data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(846).png)  
+Tracks inputs, quantities, and reorder thresholds.
 
-### 3. CropInventory Table Creation
+### 5. Trigger Logic  
+![Trigger](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(847).png)  
+Auto-updates `ModifiedAt` for audit trails.
 
-![Crop Inventory Data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(845).png)
+### 6. Stored Procedure / Restock Alert  
+![Stored Procedure Code](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(849).png)  
+Executes low-stock detection logic.
 
+### 7. Climate Expectation Price Analysis  
+![Climate expectation price](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(850).png)  
+Compares average expected prices by climate flag.
 
-This script creates the `CropInventory` table, which stores detailed information about harvested crops and expected market prices. The table provides a structured and validated way to store crop production data, enabling reliable analytics on harvest volumes, price expectations, and the influence of climate perceptions.
+### 8. Farm Input Sample Data  
+![Farm input data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(851).png)  
+Sample inventory used for restock logic.
 
+### 9. Analytical Summary & Restock Alert Execution  
+![Summary Restock Alert](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(852).png)  
+Combined output for price comparison and alerting.
 
+### 10. Synthetic Data Generation  
+![Synthetic Data Generation for CropInventory](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(857).png)  
+Bulk data generation to enable robust analytics.
 
-### 4. Farm Input Table Data
+### 11. Price Comparison by Crop & Climate  
+![Analysis Query](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(859).png)  
+Breaks down expected prices by crop type and climate expectation.
 
-![Farm Input Data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(846).png)
+### 12. Weekly Price Trends  
+![Weekly Price Trends by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)  
+Time series comparison of expected prices.
 
+### 13. Price Volatility & Stability  
+![Price Volatility by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)  
+Shows variability and normalized volatility (coefficient of variation).
 
-This script creates the `FarmInput` table, which tracks critical agricultural inputs and their stock status. It provides a validated inventory of farm inputs with automatic tracking of stock levels and built-in thresholds to support proactive restocking and operational continuity.
+---
 
+## 📌 Price Volatility & Stability by Climate Expectation
 
+**Results Table:**
 
-### 5. Trigger
+| ClimateExpFlag | N   | AvgPrice | Price StdDev | Coefficient of Variation |
+|----------------|-----|----------|--------------|--------------------------|
+| 0              | 248 | 114.09   | 14.28        | 0.1251                   |
+| 1              | 262 | 114.13   | 14.83        | 0.1300                   |
 
-![Trigger](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(847).png)
+**What the numbers mean:**  
+- **AvgPrice**: Nearly same expected price regardless of climate expectation.  
+- **Price StdDev**: Slightly higher spread when extremes are expected.  
+- **Coefficient of Variation**: Relative uncertainty is marginally larger for those expecting extremes.
 
+**Interpretation:**  
+Pricing expectations are stable, but climate concern introduces a bit more variability—suggesting uncertainty rather than a consistent shift in valuation.
 
-This trigger automatically updates the `ModifiedAt` timestamp in the `CropInventory` table whenever a record is updated. It helps maintain an accurate “last modified” timestamp for each crop record without requiring manual updates, supporting data audit trails and record version tracking.
+---
 
-**Key features:**
-- **`AFTER UPDATE`**: Ensures the trigger runs only after a record in `CropInventory` has been modified.  
-- **`SET NOCOUNT ON;`**: Improves performance by stopping extra “rows affected” messages from being sent.  
-- **Update logic**:  
-  - Joins the updated rows with the target table (`CropInventory`).  
-  - Sets the `ModifiedAt` column to the current UTC date/time using `SYSUTCDATETIME()`.  
-
-
-
-### 6. Stored Procedure
-
-![Climate Price Analysis](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(849).png)
-
-
-This procedure identifies farm inputs that are at or below their configured reorder threshold, flagging them for replenishment. It provides an operational alert mechanism to proactively manage input inventory and prevent stockouts by surfacing items needing restock.
-
-
-
-### 7. Climate Expectation Price Analysis
-
-![Climate expectation price](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(850).png)
-
-
-This section first populates the `CropInventory` table with synthetic sample data, then performs an analytical comparison of expected crop prices based on farmers’ climate expectations. 
-Then, inserts of crop inventory records with attributes such as crop type, variety, quantity harvested, whether the farmer expected climate extremes (`ClimateExpFlag`), and the expected sell price per kilogram. This makes the dataset usable for downstream analysis.
-Grouping of the inserted crop records by `ClimateExpFlag` and computes:
-- **Average Expected Price per Kg** (`AvgExpectedPricePerKg`) for each group, showing how price expectations differ between those who do and do not anticipate climate extremes.
-- **CropCount**, the number of records in each group, to give context to the averages.
-
-Comparing the two groups reveals whether climate expectation influences farmers to set higher or lower expected prices, indicating behavioral responses to perceived climate risk.
-
-
-
-
-### 8. Farm Input Data Insertion
-
-![Farm input data](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(851).png)
-
-
-This section inserts sample data into the `FarmInput` table to represent key agricultural inputs and their current stock levels relative to reorder thresholds.
-**Key aspects:**
-- Each row represents an input (e.g., fertilizer, seed, tools) with a unique `InputID` and descriptive `InputName`.  
-- `QuantityUnits` shows current stock; constraints prevent negative values.  
-- `UnitType` clarifies the measurement (e.g., Bag, Litre, Unit).  
-- `ReorderThreshold` defines the level at or below which the input is considered for restocking.  
-- This dataset is used by the stored procedure `usp_GetInputsNeedingRestock` to flag inputs that require attention, enabling proactive inventory management.
-
-
-
-### 9. Analytical Summary & Restock Alert Execution
-
-![Summary Restock Alert](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(852).png)
-
-
-This section runs the core analytics and operational alert logic. The query groups crop inventory records by whether farmers expected climate extremes (`ClimateExpFlag`) and calculates:
-- **Average Expected Price per Kg** (`AvgExpectedPricePerKg`): Shows the mean price farmers anticipate getting, segmented by climate expectation.  
-- **CropCount**: Number of records in each group, providing context to the averages.
-
-
-
-### 10. Synthetic Data Generation for CropInventory
-
-![Synthetic Data Generation for CropInventory](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(857).png)
-
-
-This script generates 500 synthetic `CropInventory` records to simulate realistic variability in crop types, varieties, quantities, harvest dates, climate expectations, and expected prices. It enables scaling the analysis beyond a few hand-entered rows. It provides a large, varied dataset so downstream analytical queries (e.g., price comparison and volatility) are meaningful and robust, demonstrating ability to simulate and work with real-world-like data without needing proprietary sources.
-
-**What it does:**
-- Loops from 1 to 500, creating unique `CropID`s like `CROP001`, `CROP002`, etc.  
-- Cycles crop types among Maize, Rice, and Sorghum to diversify the dataset.  
-- Alternates variety between "Hybrid" and "Local".  
-- Assigns a random quantity between ~100kg and ~1600kg.  
-- Picks a random recent harvest date within the last ~60 days.  
-- Randomly sets `ClimateExpFlag` to 0 or 1 to simulate different farmer expectations.  
-- Generates an expected sell price per kg between ~90 and 140 with randomness.
-
-
-
-### 11. Price Comparison by Crop and Climate Expectation
-
-![Analysis Query](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(859).png)
-
-
-This query breaks down average expected sell prices and record counts by both crop type and whether the farmer anticipated climate extremes (`ClimateExpFlag`).
-
-**What it shows:**
-- How pricing expectations vary across different crops (e.g., Maize vs Rice) conditioned on climate expectation.
-- The number of observations (N) underlying each average, giving context to reliability.
-
-
-
-### 12. Weekly Price Trends by Climate Expectation
-
-![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)
-
-
-This query computes the average expected sell price per kilogram on a weekly basis, segmented by whether the farmer anticipated climate extremes (`ClimateExpFlag`).  
-- `WeekStart` normalizes harvest dates into week buckets.  
-- Allows observing temporal patterns or divergence in price expectations between the two groups over time.
-
-
-
- ### 13. Price Volatility by Climate Expectation
-
- ![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)
-
-
-
-The second part of this query calculates the sample standard deviation of expected prices for each `ClimateExpFlag` group, measuring variability (volatility) in farmers' price expectations depending on whether they anticipate climate extremes.
-
-
-
-### 14. Query Output – Climate Price Averages
-
-![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(866).png)
-
-
-
-
-
-### 13. Query Output – Climate Price Averages
-
-![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)
-
-
-
-### 13. Query Output – Climate Price Averages
-
-![Restock Alert Output](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(870).png)
-
-
-
-
-
-
-
-
-## Schema Design Script
+## 🧪 Schema Design Script
 
 Below is the complete `create_schema.sql` used to set up the database schema for this project.
-
 
 ```sql
 -- =====================================================
@@ -304,15 +220,3 @@ GO
 -- =====================================================
 -- End of Schema Design Script
 -- =====================================================
-
-
-
-
-
-
-
-
-
-
-
-
