@@ -14,7 +14,6 @@ This project demonstrates **Microsoft SQL Server / T-SQL** skills by modeling ag
 
 ## 📂 Project Structure
 - **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
-- **sample_data/**: Example CSVs for quick import  
 - **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic)
 
 ---
