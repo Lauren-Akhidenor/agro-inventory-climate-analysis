@@ -1,7 +1,7 @@
 # 🌾 Agricultural Inventory & Climate-Expectation Analysis
 
 ## 📌 Overview
-This project demonstrates **Microsoft SQL Server / SMSS** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
+This project demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
 
 ## 🛠 Skills Demonstrated
 - 🗄 Schema design with primary keys & constraints  
@@ -10,11 +10,12 @@ This project demonstrates **Microsoft SQL Server / SMSS** skills by modeling agr
 - ⚙ Stored procedure creation (`usp_GetInputsNeedingRestock`)  
 - 📈 Aggregation & comparison queries  
 - 📉 Statistical summary (average, volatility, coefficient of variation)  
-- 🚨 Conditional alerting for inventory restock  
+- 🚨 Conditional alerting for inventory restock
+- 📈 Dashboard visualization
 
 ## 📂 Project Structure
 - **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
-- **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic)
+- **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic and power BI dashboard)
 
 ---
 
@@ -136,6 +137,11 @@ Shows variability and normalized volatility (coefficient of variation).
 
 **Interpretation:**  
 Pricing expectations are stable, but climate concern introduces a bit more variability—suggesting uncertainty rather than a consistent shift in valuation.
+
+
+**Power BI Dashboard Visualization:**
+
+![PowerBI Dashboard Visualization](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(878).png)  
 
 ---
 
