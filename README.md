@@ -121,9 +121,9 @@ Time series comparison of expected prices.
 ## 📌 Results Table:
 
 
-### 1. Price Volatility & Stability  
+### 1. Weekly Price Trends by Climate Expectation 
 ![Price Volatility by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)  
-Shows variability and normalized volatility (coefficient of variation).
+Shows Weekly Price Trends by Climate Expectation 
 
 
 
