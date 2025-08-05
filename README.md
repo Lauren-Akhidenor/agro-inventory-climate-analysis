@@ -115,15 +115,19 @@ Breaks down expected prices by crop type and climate expectation.
 ![Weekly Price Trends by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)  
 Time series comparison of expected prices.
 
-### 13. Price Volatility & Stability  
-![Price Volatility by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)  
-Shows variability and normalized volatility (coefficient of variation).
 
 ---
 
-## 📌 Price Volatility & Stability by Climate Expectation
+## 📌 Results Table:
 
-**Results Table:**
+
+### 1. Price Volatility & Stability  
+![Price Volatility by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)  
+Shows variability and normalized volatility (coefficient of variation).
+
+
+
+### 2. Price Volatility & Stability by Climate Expectation 
 
 | ClimateExpFlag | N   | AvgPrice | Price StdDev | Coefficient of Variation |
 |----------------|-----|----------|--------------|--------------------------|
@@ -139,9 +143,11 @@ Shows variability and normalized volatility (coefficient of variation).
 Pricing expectations are stable, but climate concern introduces a bit more variability—suggesting uncertainty rather than a consistent shift in valuation.
 
 
-**Power BI Dashboard Visualization:**
+### 3. Power BI Dashboard Visualization:
 
 ![PowerBI Dashboard Visualization](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(878).png)  
+
+
 
 ---
 
