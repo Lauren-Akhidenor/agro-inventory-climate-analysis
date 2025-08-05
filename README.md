@@ -17,6 +17,7 @@ This project involves the use of data manipulation in order to demonstrates **Mi
 - **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
 - **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic and power BI dashboard)
 
+
 ---
 
 ## 🧩 Key Components
