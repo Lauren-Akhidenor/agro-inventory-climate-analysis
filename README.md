@@ -1,7 +1,7 @@
-# 🌾 Agricultural Inventory & Climate-Expectation Analysis
+# Agricultural Inventory & Climate-Expectation Analysis
 
 ## 📌 Overview
-This project involves the use of data manipulation in order to demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
+This project involves the use of data manipulation techniques in order to demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
 
 ## 🛠 Skills Demonstrated
 - 🗄 Schema design with primary keys & constraints  
@@ -11,7 +11,7 @@ This project involves the use of data manipulation in order to demonstrates **Mi
 - 📈 Aggregation & comparison queries  
 - 📉 Statistical summary (average, volatility, coefficient of variation)  
 - 🚨 Conditional alerting for inventory restock
-- 📈 Dashboard visualization
+- 📊 Dashboard visualization
 
 ## 📂 Project Structure
 - **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
@@ -36,7 +36,7 @@ Ensures a clean start before schema creation:
 - `GO` batches ensure proper execution order  
 
 ### 3. CropInventory Table  
-Holds crop harvest details, climate expectation flag, and expected sell price—enabling downstream price analysis and segmentation.
+Holds crop harvest details, climate expectation flag, and expected sell price, enabling downstream price analysis and segmentation.
 
 ### 4. FarmInput Table  
 Tracks essential inputs (fertilizer, seed, tools) with stock levels and reorder thresholds for operational alerts.
@@ -59,12 +59,6 @@ Generates 500 realistic `CropInventory` records to scale analysis and simulate v
 
 ---
 
-## 🔍 Key Insights
-- Farmers expecting climate extremes show slightly more uncertainty in price expectations.  
-- Mean expected prices remain similar, but volatility is marginally higher when climate extremes are anticipated.  
-- Restock alerts operationalize inventory health, preventing stockouts.
-
----
 
 ## 🖼 Snapshot of Scripts & Outputs
 
@@ -135,7 +129,7 @@ Shows Weekly Price Trends by Climate Expectation
 | 0              | 248 | 114.09   | 14.28        | 0.1251                   |
 | 1              | 262 | 114.13   | 14.83        | 0.1300                   |
 
-**What the numbers mean:**  
+**Insights:**  
 - **AvgPrice**: Nearly same expected price regardless of climate expectation.  
 - **Price StdDev**: Slightly higher spread when extremes are expected.  
 - **Coefficient of Variation**: Relative uncertainty is marginally larger for those expecting extremes.
