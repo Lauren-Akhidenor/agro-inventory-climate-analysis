@@ -1,17 +1,17 @@
-# 🌾 Agricultural Inventory & Climate-Expectation Analysis
+# AGRICULTURAL INVENTORY & CLIMATE EXPECTATION ANALYSIS
 
 ## 📌 Overview
 This project involves the use of data manipulation techniques in order to demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
 
-## 🛠 Skills Demonstrated
-- 🗄 Schema design with primary keys & constraints  
-- ✅ Data integrity enforcement (CHECK constraints, defaults)  
-- 🔄 Auditability via triggers (automatic ModifiedAt updates)  
-- ⚙ Stored procedure creation (`usp_GetInputsNeedingRestock`)  
-- 📈 Aggregation & comparison queries  
-- 📉 Statistical summary (average, volatility, coefficient of variation)  
-- 🚨 Conditional alerting for inventory restock
-- 📊 Dashboard visualization
+## Skills Demonstrated
+- Schema design with primary keys & constraints  
+- Data integrity enforcement (CHECK constraints, defaults)  
+- Auditability via triggers (automatic ModifiedAt updates)  
+- Stored procedure creation (`usp_GetInputsNeedingRestock`)  
+- Aggregation & comparison queries  
+- Statistical summary (average, volatility, coefficient of variation)  
+- Conditional alerting for inventory restock
+- Dashboard visualization
 
 ## 📂 Project Structure
 - **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
@@ -20,14 +20,14 @@ This project involves the use of data manipulation techniques in order to demons
 
 ---
 
-## 🧩 Key Components
+## Key Components
 
 ### 1. Schema & Data Integrity  
 Implements a relational design to manage crop inventory and farm inputs with built-in protections:  
-- 🔑 Primary keys for unique identification  
-- 🚫 CHECK constraints to prevent invalid values (e.g., no negative quantity)  
-- 🕒 DEFAULT timestamps (`CreatedAt`, `ModifiedAt`)  
-- 🔁 Triggers to keep `ModifiedAt` accurate automatically  
+- Primary keys for unique identification  
+- CHECK constraints to prevent invalid values (e.g., no negative quantity)  
+- DEFAULT timestamps (`CreatedAt`, `ModifiedAt`)  
+- Triggers to keep `ModifiedAt` accurate automatically  
 
 ### 2. Database Reset Script  
 Ensures a clean start before schema creation:  
@@ -60,7 +60,7 @@ Generates 500 realistic `CropInventory` records to scale analysis and simulate v
 ---
 
 
-## 🖼 Snapshot of Scripts & Outputs
+## Snapshot of Scripts & Outputs
 
 ### 1. Schema Design  
 ![Schema Design](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(853).png)  
@@ -113,7 +113,7 @@ Time series comparison of expected prices.
 
 ---
 
-## 📌 Results Table:
+## Results Table:
 
 
 ### 1. Weekly Price Trends by Climate Expectation 
@@ -146,7 +146,7 @@ Pricing expectations are stable, but climate concern introduces a bit more varia
 
 ---
 
-## 🧪 Schema Design Script
+## Schema Design Script
 
 Below is the complete `create_schema.sql` used to set up the database schema for this project.
 
