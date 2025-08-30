@@ -1,4 +1,4 @@
-# AGRICULTURAL INVENTORY & CLIMATE EXPECTATION ANALYSIS
+# Agricultural Inventory & Climate-Expectation Analysis
 
 ## 📌 Overview
 This project involves the use of data manipulation techniques in order to demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
