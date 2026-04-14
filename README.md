@@ -1,66 +1,154 @@
-# Agricultural Inventory & Climate Expectation Analysis
+# SQL-Based Agricultural Inventory Management & Restock Automation System
 
-## 📌 Overview
-This project involves the use of data manipulation techniques in order to demonstrates **Microsoft SQL Server, SMSS, T-SQL and Power BI** skills by modeling agricultural inventory, incorporating farmers’ climate expectation signals, and building both analytical and operational logic to inform decisions.
+## Overview
+This project demonstrates the use of **Microsoft SQL Server (SSMS), T-SQL, and Power BI** to model agricultural inventory systems, simulate climate expectation signals, and build operational analytics for decision support.
+
+It focuses on:
+- Relational database design
+- Inventory monitoring and restock automation
+- Behavioral analysis of climate expectation signals
+- Dashboard-based decision support using Power BI
+
+> ⚠️ **Note on Data**:  
+> The climate expectation and price data used in this project is **synthetically generated** to demonstrate database design, SQL logic, and analytical workflows.  
+> The results are therefore **illustrative and not intended to represent real-world agricultural price behavior**.
+
+---
 
 ## Skills Demonstrated
-- Schema design with primary keys & constraints  
-- Data integrity enforcement (CHECK constraints, defaults)  
-- Auditability via triggers (automatic ModifiedAt updates)  
-- Stored procedure creation (`usp_GetInputsNeedingRestock`)  
-- Aggregation & comparison queries  
-- Statistical summary (average, volatility, coefficient of variation)  
-- Conditional alerting for inventory restock
-- Dashboard visualization
-
-## 📂 Project Structure
-- **sql/**: T-SQL scripts (schema, inserts, procedures, analysis)  
-- **screenshots/**: Proof-of-execution (SSMS outputs, schema design, query logic and power BI dashboard)
-
+- SQL Server schema design (Primary Keys, constraints, defaults)
+- Data integrity enforcement (CHECK constraints, triggers)
+- Stored procedures for operational decision-making
+- Automated auditability (ModifiedAt triggers)
+- Aggregation and statistical analysis (mean, standard deviation, coefficient of variation)
+- Conditional inventory alerting
+- Power BI dashboard development
 
 ---
 
-## Key Components
-
-### 1. Schema & Data Integrity  
-Implements a relational design to manage crop inventory and farm inputs with built-in protections:  
-- Primary keys for unique identification  
-- CHECK constraints to prevent invalid values (e.g., no negative quantity)  
-- DEFAULT timestamps (`CreatedAt`, `ModifiedAt`)  
-- Triggers to keep `ModifiedAt` accurate automatically  
-
-### 2. Database Reset Script  
-Ensures a clean start before schema creation:  
-- `USE [checkpoint]` selects the target database  
-- Conditional `DROP TABLE` avoids errors on reruns  
-- `GO` batches ensure proper execution order  
-
-### 3. CropInventory Table  
-Holds crop harvest details, climate expectation flag, and expected sell price, enabling downstream price analysis and segmentation.
-
-### 4. FarmInput Table  
-Tracks essential inputs (fertilizer, seed, tools) with stock levels and reorder thresholds for operational alerts.
-
-### 5. Trigger Automation  
-Automatically updates `ModifiedAt` on updates to maintain auditability without manual intervention.
-
-### 6. Stored Procedure: Restock Alerts  
-`usp_GetInputsNeedingRestock` flags inputs at or below their reorder threshold to support proactive replenishment.
-
-### 7. Climate Expectation Price Analysis  
-Compares expected crop prices between farmers expecting climate extremes versus those who do not, surfacing behavioral pricing signals.
-
-### 8. Synthetic Data Generation  
-Generates 500 realistic `CropInventory` records to scale analysis and simulate variability in crop type, harvest timing, climate expectation, and pricing.
-
-### 9. Temporal & Volatility Analysis  
-- Weekly trend of average expected price segmented by climate flag  
-- Price volatility and coefficient of variation to assess stability of expectations  
+## Project Structure
+- `sql/` → Schema, procedures, inserts, and analysis scripts  
+- `screenshots/` → SSMS execution outputs and Power BI dashboard  
+- `README.md` → Project documentation  
 
 ---
 
+## Database Design
 
-## Snapshot of Scripts & Outputs
+### Schema & Data Integrity
+The database is designed to ensure:
+- Unique identification via primary keys
+- Prevention of invalid data (e.g., negative quantities)
+- Automatic timestamp tracking (`CreatedAt`, `ModifiedAt`)
+- Trigger-based audit updates for record changes
+
+---
+
+### Core Tables
+
+#### CropInventory
+Stores harvested crop data and pricing assumptions:
+- Crop type and variety
+- Harvest quantities
+- Climate expectation flag
+- Expected selling price per kg
+
+#### FarmInput
+Tracks agricultural inputs used in production:
+- Fertilizers, seeds, and tools
+- Stock levels
+- Reorder thresholds for operational alerts
+
+---
+
+## Stored Procedure: Restock Alerts
+
+This procedure identifies inputs that require replenishment.
+
+```sql
+CREATE OR ALTER PROCEDURE dbo.usp_GetInputsNeedingRestock
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        InputID,
+        InputName,
+        QuantityUnits,
+        ReorderThreshold
+    FROM dbo.FarmInput
+    WHERE QuantityUnits <= ReorderThreshold;
+END;
+GO
+```
+
+## Stored Procedure: Restock Alerts
+
+### Purpose:
+- Enables proactive inventory management  
+- Flags low-stock inputs for procurement decisions  
+- Supports operational efficiency in farm management systems  
+
+---
+
+## Trigger Logic
+
+Automatically updates modification timestamps:
+
+- Ensures every update is tracked  
+- Removes reliance on manual timestamp handling  
+- Improves data reliability for auditing  
+
+---
+
+## Analytical Components
+
+### Climate Expectation Price Analysis
+Compares expected crop prices between farmers:
+- With climate extreme expectations  
+- Without climate extreme expectations  
+
+---
+
+### Price Volatility Analysis
+
+| ClimateExpFlag | N   | AvgPrice | StdDev | Coefficient of Variation |
+|----------------|-----|----------|--------|--------------------------|
+| 0              | 248 | 114.09   | 14.28  | 0.1251                   |
+| 1              | 262 | 114.13   | 14.83  | 0.1300                   |
+
+**Interpretation:**
+- Average prices are nearly identical across groups  
+- Climate expectations introduce slightly higher uncertainty  
+- Suggests behavioral variability rather than systematic price shifts  
+
+---
+
+## Power BI Dashboard
+
+![PowerBI Dashboard Visualization](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(878).png)  
+
+
+The Power BI dashboard consolidates:
+- Crop inventory levels  
+- Price comparisons by climate expectation  
+- Temporal trends in expected prices  
+- Restock alerts from SQL stored procedure outputs  
+
+### Dashboard Features:
+- Interactive filtering by crop type and climate flag  
+- Time-based trend visualization (weekly aggregation)  
+- Comparative price distribution views  
+- Operational view of low-stock farm inputs  
+
+**Business Value:**
+- Supports procurement planning  
+- Highlights inventory risk exposure  
+- Enables monitoring of pricing behavior under uncertainty  
+
+---
+
+## Visual Outputs
 
 ### 1. Schema Design  
 ![Schema Design](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(853).png)  
@@ -110,119 +198,31 @@ Breaks down expected prices by crop type and climate expectation.
 ![Weekly Price Trends by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(862).png)  
 Time series comparison of expected prices.
 
-
----
-
-## Results Table:
-
-
-### 1. Weekly Price Trends by Climate Expectation 
+### 13. Weekly Price Trends by Climate Expectation 
 ![Price Volatility by Climate Expectation](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(869).png)  
 Shows Weekly Price Trends by Climate Expectation 
 
+---
 
+## Key Takeaways
 
-### 2. Price Volatility & Stability by Climate Expectation 
-
-| ClimateExpFlag | N   | AvgPrice | Price StdDev | Coefficient of Variation |
-|----------------|-----|----------|--------------|--------------------------|
-| 0              | 248 | 114.09   | 14.28        | 0.1251                   |
-| 1              | 262 | 114.13   | 14.83        | 0.1300                   |
-
-**Insights:**  
-- **AvgPrice**: Nearly same expected price regardless of climate expectation.  
-- **Price StdDev**: Slightly higher spread when extremes are expected.  
-- **Coefficient of Variation**: Relative uncertainty is marginally larger for those expecting extremes.
-
-**Interpretation:**  
-Pricing expectations are stable, but climate concern introduces a bit more variability—suggesting uncertainty rather than a consistent shift in valuation.
-
-
-### 3. Power BI Dashboard Visualization:
-
-![PowerBI Dashboard Visualization](https://raw.githubusercontent.com/Lauren-Akhidenor/agro-inventory-climate-analysis/main/Screenshot%20(878).png)  
-
-
+- Strong relational database design with operational logic  
+- Effective use of SQL automation (triggers + stored procedures)  
+- Demonstrates ability to build end-to-end analytical systems  
+- Bridges operational data (inventory) with behavioral signals (climate expectation)  
 
 ---
 
-## Schema Design Script
+## Future Improvements
 
-Below is the complete `create_schema.sql` used to set up the database schema for this project.
+- Introduce foreign key relationships (e.g., linking crops to input usage or farmer entities)  
+- Replace synthetic dataset with real agricultural survey or market data  
+- Expand Power BI dashboard into a multi-role decision system  
+- Add forecasting model for price or demand prediction  
 
-```sql
--- =====================================================
--- Agricultural Inventory & Climate-Expectation Database
--- Schema Design Script
--- Author: Lauren Akhidenor
--- Description: Creates core tables, constraints, and triggers
--- =====================================================
+---
 
-USE [checkpoint];
-GO
+## 👤 Author
+Lauren Akhidenor
 
-IF OBJECT_ID(N'dbo.CropInventory', N'U') IS NOT NULL
-    DROP TABLE dbo.CropInventory;
-GO
 
-IF OBJECT_ID(N'dbo.FarmInput', N'U') IS NOT NULL
-    DROP TABLE dbo.FarmInput;
-GO
-
-CREATE TABLE dbo.CropInventory (
-    CropID                 VARCHAR(50)      NOT NULL,
-    CropName               NVARCHAR(100)    NOT NULL,
-    Variety                NVARCHAR(100)    NULL,
-    QuantityKg             DECIMAL(12,2)    NOT NULL
-        CONSTRAINT CK_CropInventory_Quantity_NonNegative CHECK (QuantityKg >= 0),
-    HarvestDate            DATE             NOT NULL,
-    ClimateExpFlag         BIT              NOT NULL DEFAULT 0,
-    ExpectedSellPricePerKg DECIMAL(12,2)    NULL,
-    CreatedAt              DATETIME2        NOT NULL DEFAULT SYSUTCDATETIME(),
-    ModifiedAt             DATETIME2        NOT NULL DEFAULT SYSUTCDATETIME(),
-    CONSTRAINT PK_CropInventory PRIMARY KEY (CropID)
-);
-GO
-
-CREATE TABLE dbo.FarmInput (
-    InputID          VARCHAR(50)     NOT NULL,
-    InputName        NVARCHAR(100)   NOT NULL,
-    QuantityUnits    INT             NOT NULL
-        CONSTRAINT CK_FarmInput_Quantity_NonNegative CHECK (QuantityUnits >= 0),
-    UnitType         NVARCHAR(50)    NOT NULL,
-    ReorderThreshold INT             NOT NULL DEFAULT 10,
-    CreatedAt        DATETIME2       NOT NULL DEFAULT SYSUTCDATETIME(),
-    ModifiedAt       DATETIME2       NOT NULL DEFAULT SYSUTCDATETIME(),
-    CONSTRAINT PK_FarmInput PRIMARY KEY (InputID)
-);
-GO
-
-CREATE OR ALTER TRIGGER dbo.trg_UpdateModifiedAt_CropInventory
-ON dbo.CropInventory
-AFTER UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-    UPDATE ci
-    SET ModifiedAt = SYSUTCDATETIME()
-    FROM dbo.CropInventory ci
-    JOIN inserted i ON ci.CropID = i.CropID;
-END;
-GO
-
-CREATE OR ALTER TRIGGER dbo.trg_UpdateModifiedAt_FarmInput
-ON dbo.FarmInput
-AFTER UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-    UPDATE fi
-    SET ModifiedAt = SYSUTCDATETIME()
-    FROM dbo.FarmInput fi
-    JOIN inserted i ON fi.InputID = i.InputID;
-END;
-GO
-
--- =====================================================
--- End of Schema Design Script
--- =====================================================
