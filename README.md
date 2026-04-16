@@ -1,4 +1,4 @@
-# SQL-Based Agricultural Inventory Management & Restock Automation System
+# Smart Farm Inventory System: SQL-Driven Restock & Climate Signal Analytics
 
 ## Overview
 This project demonstrates the use of **Microsoft SQL Server (SSMS), T-SQL, and Power BI** to model agricultural inventory systems, simulate climate expectation signals, and build operational analytics for decision support.
